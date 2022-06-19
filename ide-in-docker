@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+
+VERSION=1.0.0
+DEFAULT_X11DOCKER_VERSION=7.1.4
+DEFAULT_DOCKER_IMAGE=01e9/ide-in-docker
+
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && pwd 2> /dev/null; )";
+SCRIPT_NAME=$(basename "${BASH_SOURCE[0]:-$0}")
+
+#region options
+
+while test $# -gt 0; do
+  case "$1" in
+    -h|--help)
+      echo "Run IDE in docker container"
+      echo "    https://github.com/01e9/ide-in-docker"
+      echo ""
+      echo "Usage:"
+      echo "    ${SCRIPT_NAME} <ide-executable-path>"
+      echo "    env DOCKER_IMAGE=your/image:1.2.3 DOCKER_OPTS='-p 8080:8080' ${SCRIPT_NAME} <ide-executable-path>"
+      echo ""
+      echo "Options:"
+      echo "    -v --version"
+      echo "        Display version"
+      echo "    -h --help"
+      echo "        Display help"
+      echo ""
+      echo "Environment variables:"
+      echo "    DOCKER_IMAGE      - docker image to use"
+      echo "    DOCKER_OPTS       - docker run options"
+      echo "    X11DOCKER_OPTS    - x11docker options"
+      echo "    X11DOCKER_VERSION - x11docker version to use"
+      echo "    X11DOCKER_PATH    - x11docker (download) location"
+      echo ""
+      echo "About IDE executable path:"
+      echo "    HOME folder is mounted automatically so this will work:"
+      echo "        ${SCRIPT_NAME} ~/my/ide/run.sh"
+      echo "    If IDE is not in HOME you must mount the location:"
+      echo "        env DOCKER_OPTS='-v /usr/bin/code:/usr/bin/code:ro' ${SCRIPT_NAME} /usr/bin/code"
+      exit 0
+      ;;
+    -v|--version)
+      echo "${VERSION}"
+      exit 0
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+#endregion
+
+#region arguments
+
+IDE_EXEC_PATH="${1}"
+[ -n "${IDE_EXEC_PATH}" ] || { echo "Missing required arguments, see --help"; exit 1; }
+
+#endregion
+
+#region env variables
+
+X11DOCKER_VERSION="${X11DOCKER_VERSION:-${DEFAULT_X11DOCKER_VERSION}}"
+X11DOCKER_OPTS="${X11DOCKER_OPTS:-}"
+X11DOCKER_PATH="${X11DOCKER_PATH:-/tmp/ide-in-docker-x11docker-${X11DOCKER_VERSION}}"
+
+DOCKER_IMAGE="${DOCKER_IMAGE:-${DEFAULT_DOCKER_IMAGE}}"
+DOCKER_OPTS="${DOCKER_OPTS:-}"
+
+#endregion
+
+if [ ! -f "${X11DOCKER_PATH}" ] || [ $("${X11DOCKER_PATH}" --version) != "$X11DOCKER_VERSION" ]; then
+  rm -rf x11docker
+  echo "Downloading x11docker $X11DOCKER_VERSION ..."
+  wget -O "${X11DOCKER_PATH}" "https://github.com/mviereck/x11docker/raw/v${X11DOCKER_VERSION}/x11docker"
+  chmod +x "${X11DOCKER_PATH}"
+fi
+
+echo "Starting IDE in docker container..."
+
+"${X11DOCKER_PATH}" \
+  --hostdisplay \
+  --home="$HOME" \
+  --clipboard \
+  --cap-default \
+  --network \
+  $X11DOCKER_OPTS \
+  -- "--cap-add=SYS_PTRACE $DOCKER_OPTS" \
+  $DOCKER_IMAGE \
+  $IDE_EXEC_PATH
+
+echo "Bye"
