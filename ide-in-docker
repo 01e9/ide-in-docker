@@ -16,8 +16,8 @@ while test $# -gt 0; do
       echo "    https://github.com/01e9/ide-in-docker"
       echo ""
       echo "Usage:"
-      echo "    ${SCRIPT_NAME} <ide-executable-path>"
-      echo "    env DOCKER_IMAGE=your/image:1.2.3 DOCKER_OPTS='-p 8080:8080' ${SCRIPT_NAME} <ide-executable-path>"
+      echo "    ${SCRIPT_NAME} <ide-executable> [ide-options]"
+      echo "    env DOCKER_IMAGE=your/image:1.2.3 DOCKER_OPTS='-p 8080:8080' ${SCRIPT_NAME} <ide-executable>"
       echo ""
       echo "Options:"
       echo "    -v --version"
@@ -53,8 +53,8 @@ done
 
 #region arguments
 
-IDE_EXEC_PATH="${1}"
-[ -n "${IDE_EXEC_PATH}" ] || { echo "Missing required arguments, see --help"; exit 1; }
+IDE_COMMAND="${*}"
+[ -n "${IDE_COMMAND}" ] || { echo "Missing required arguments, see --help"; exit 1; }
 
 #endregion
 
@@ -87,6 +87,6 @@ echo "Starting IDE in docker container..."
   $X11DOCKER_OPTS \
   -- "--cap-add=SYS_PTRACE $DOCKER_OPTS" \
   $DOCKER_IMAGE \
-  $IDE_EXEC_PATH
+  $IDE_COMMAND
 
 echo "Bye"
