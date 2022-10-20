@@ -9,7 +9,7 @@ RUN apt-get update \
         # Development
         gdb gdbserver \
         # Code analysis
-        gcovr cppcheck python-pygments valgrind \
+        gcovr cppcheck python3-pygments valgrind \
     # cppcheck-htmlreport
     && wget -O /usr/local/bin/cppcheck-htmlreport https://raw.githubusercontent.com/danmar/cppcheck/${CPPCHECK_HTMLREPORT_VERSION}/htmlreport/cppcheck-htmlreport \
         && chmod +x /usr/local/bin/cppcheck-htmlreport \
