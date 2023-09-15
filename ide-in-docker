@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=1.0.2
+VERSION=1.0.3
 DEFAULT_X11DOCKER_VERSION=7.1.4
 DEFAULT_DOCKER_IMAGE=01e9/ide-in-docker
 
@@ -67,9 +67,11 @@ X11DOCKER_PATH="${X11DOCKER_PATH:-${HOME}/.cache/ide-in-docker/x11docker-${X11DO
 DOCKER_IMAGE="${DOCKER_IMAGE:-${DEFAULT_DOCKER_IMAGE}}"
 DOCKER_OPTS="${DOCKER_OPTS:-}"
 
+X11DOCKER_COMMAND="$(docker version 1> /dev/null 2> /dev/null || echo 'sudo ')${X11DOCKER_PATH}"
+
 #endregion
 
-if [ ! -f "${X11DOCKER_PATH}" ] || [ $("${X11DOCKER_PATH}" --version) != "$X11DOCKER_VERSION" ]; then
+if [ ! -f "${X11DOCKER_PATH}" ] || [ "$(${X11DOCKER_COMMAND} --version 2> /dev/null)" != "$X11DOCKER_VERSION" ]; then
   mkdir -p $(dirname "${X11DOCKER_PATH}")
   rm -rf "${X11DOCKER_PATH}"
   echo "Downloading x11docker $X11DOCKER_VERSION ..."
@@ -79,7 +81,7 @@ fi
 
 echo "Starting IDE in docker container..."
 
-"${X11DOCKER_PATH}" \
+${X11DOCKER_COMMAND} \
   --hostdisplay \
   --home="$HOME" \
   --clipboard \
