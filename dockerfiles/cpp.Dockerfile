@@ -2,6 +2,7 @@ FROM 01e9/ide-in-docker
 
 ARG CMAKE_VERSION='3.28.3'
 ARG NINJA_VERSION='1.11.1'
+ARG GCC_VERSION='13'
 ARG LLVM_VERSION='18'
 ARG CPPCHECK_HTMLREPORT_VERSION='2.8'
 
@@ -25,6 +26,11 @@ RUN apt update \
         && wget -O ninja.zip https://github.com/ninja-build/ninja/releases/download/v${NINJA_VERSION}/ninja-linux.zip \
         && unzip ninja.zip \
         && mv ninja /usr/local/bin/ \
+    # gcc
+    && cd /tmp \
+        && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+        && apt install -y gcc-${GCC_VERSION} g++-${GCC_VERSION} \
+    # llvm (clang)
     && cd /tmp \
         && wget https://apt.llvm.org/llvm.sh \
         && bash llvm.sh ${LLVM_VERSION} all \
