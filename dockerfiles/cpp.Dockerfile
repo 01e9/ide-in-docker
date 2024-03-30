@@ -10,10 +10,12 @@ RUN apt update \
     && apt install -y \
         # Build
         make g++ automake autoconf \
-        # Development
+        # Debug
         gdb gdbserver \
         # Code analysis
         gcovr cppcheck python3-pygments valgrind \
+        # Libs
+        libssl-dev \
     # cmake
     && cd /tmp \
         && wget -O cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz \
