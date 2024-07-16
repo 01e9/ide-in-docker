@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 ARG TINI_VERSION='0.19.0'
 ARG TZ_REGION='Europe'

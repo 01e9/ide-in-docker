@@ -1,6 +1,6 @@
 FROM 01e9/ide-in-docker as php
 
-ARG PHP_VERSION='8.1'
+ARG PHP_VERSION='8.3'
 ARG COMPOSER_VERSION='2.7.2'
 
 RUN apt-get update \
@@ -21,10 +21,10 @@ RUN apt-get update \
         php${PHP_VERSION}-redis \
         php-pear \
         && sed -i 's/^;\?\(date\.timezone\) =.*/\1 = "Europe\/Bucharest"/' /etc/php/${PHP_VERSION}/cli/php.ini \
-    # Imagick
-    && apt-get install -y libmagickwand-dev \
-        && pecl install imagick \
-        && echo "extension=$(find /usr/lib/php -iname imagick.so)" > /etc/php/${PHP_VERSION}/cli/conf.d/20-imagick.ini \
+    # Imagick # throws error https://github.com/Imagick/imagick/issues/668
+    #&& apt-get install -y libmagickwand-dev \
+    #    && pecl install imagick \
+    #    && echo "extension=$(find /usr/lib/php -iname imagick.so)" > /etc/php/${PHP_VERSION}/cli/conf.d/20-imagick.ini \
     # Debugger
     && pecl install xdebug \
         && echo "zend_extension=$(find /usr/lib/php -iname xdebug.so)" > /etc/php/${PHP_VERSION}/cli/conf.d/30-xdebug.ini \
