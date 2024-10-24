@@ -1,7 +1,7 @@
 FROM 01e9/ide-in-docker as php
 
 ARG PHP_VERSION='8.3'
-ARG COMPOSER_VERSION='2.7.2'
+ARG COMPOSER_VERSION='2.8.1'
 
 RUN apt-get update \
     # PHP
@@ -39,8 +39,8 @@ RUN apt-get update \
 
 FROM php
 
-ARG NODEJS_VERSION='16'
-ARG NPM_VERSION='8.11'
+ARG NODEJS_VERSION='20'
+ARG NPM_VERSION='10.9'
 
 RUN apt-get update \
     # nodejs
