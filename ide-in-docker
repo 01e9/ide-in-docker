@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-VERSION=1.0.3
-DEFAULT_X11DOCKER_VERSION=7.1.4
+VERSION=1.0.4
+DEFAULT_X11DOCKER_VERSION=7.6.0
 DEFAULT_DOCKER_IMAGE=01e9/ide-in-docker
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && pwd 2> /dev/null; )";
@@ -87,6 +87,7 @@ ${X11DOCKER_COMMAND} \
   --clipboard \
   --cap-default \
   --network \
+  --no-entrypoint \
   $X11DOCKER_OPTS \
   -- "--cap-add=SYS_PTRACE $DOCKER_OPTS" \
   $DOCKER_IMAGE \
