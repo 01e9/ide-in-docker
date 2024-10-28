@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-VERSION=1.0.4
-DEFAULT_X11DOCKER_VERSION=7.6.0
+VERSION=1.0.5
+DEFAULT_X11DOCKER_VERSION=6.10.0
 DEFAULT_DOCKER_IMAGE=01e9/ide-in-docker
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && pwd 2> /dev/null; )";
@@ -82,12 +82,13 @@ fi
 echo "Starting IDE in docker container..."
 
 ${X11DOCKER_COMMAND} \
-  --hostdisplay \
   --home="$HOME" \
-  --clipboard \
   --cap-default \
+  --clipboard \
   --network \
   --no-entrypoint \
+  --no-setup \
+  --hostdisplay \
   $X11DOCKER_OPTS \
   -- "--cap-add=SYS_PTRACE $DOCKER_OPTS" \
   $DOCKER_IMAGE \
