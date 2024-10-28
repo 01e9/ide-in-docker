@@ -20,6 +20,10 @@ RUN apt-get update \
         libgtk-3-0 libatk-bridge2.0-0 libx11-xcb1 libnss3 libxss1 \
         # for JetBrains
         libxshmfence-dev \
+    # utf8
+    && apt-get install -y locales \
+        && rm -rf /var/lib/apt/lists/* \
+	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
     # tzdata
     && truncate -s0 /tmp/preseed.cfg \
         && echo "tzdata tzdata/Areas select ${TZ_REGION}" >> /tmp/preseed.cfg \
@@ -31,6 +35,14 @@ RUN apt-get update \
     && wget -O /tini "https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini" \
         && chmod +x /tini \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+
+# GPU
+RUN apt-get update \
+    && apt-get install -y \
+        libglfw3-dev libassimp-dev libxinerama-dev libxcursor-dev libxi-dev xorg-dev libgl1-mesa-dev mesa-utils mesa-utils-extra kmod libxxf86vm-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+ENV LANG en_US.utf8
 
 RUN mkdir -p ~/.ssh \
     && ssh-keyscan -t rsa bitbucket.org >> ~/.ssh/known_hosts \

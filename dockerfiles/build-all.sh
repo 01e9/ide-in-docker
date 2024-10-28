@@ -9,7 +9,7 @@ PUSH=${PUSH:-}
 docker build -t "${IMAGE}" . # base
 [ -n "$PUSH" ] && docker push "${IMAGE}"
 
-for TAG in 'php-js' 'cpp' 'cpp-gpu'
+for TAG in 'php-js' 'cpp'
 do
     docker build -t "${IMAGE}:${TAG}" -f "${TAG}.Dockerfile" .
     [ -n "$PUSH" ] && docker push "${IMAGE}:${TAG}"
