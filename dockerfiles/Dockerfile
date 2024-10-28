@@ -13,7 +13,7 @@ RUN apt-get update \
         wget tar unzip git curl nano man htop build-essential socat gnupg2 \
           software-properties-common bash-completion openssh-server \
         # GUI
-        libgtk2.0-0 libcanberra-gtk-module libxext6 libxrender1 libxtst6 libxslt1.1 dmz-cursor-theme \
+        kde-plasma-desktop libgtk2.0-0 libcanberra-gtk-module libxext6 libxrender1 libxtst6 libxslt1.1 dmz-cursor-theme \
         # for VsCode
         libxcb-dri3-0 libdrm-dev libgbm-dev \
         # for Chromium
