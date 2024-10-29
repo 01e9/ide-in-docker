@@ -86,8 +86,6 @@ ${X11DOCKER_COMMAND} \
   --cap-default \
   --clipboard \
   --network \
-  --no-entrypoint \
-  --no-setup \
   --hostdisplay \
   $X11DOCKER_OPTS \
   -- "--cap-add=SYS_PTRACE $DOCKER_OPTS" \
