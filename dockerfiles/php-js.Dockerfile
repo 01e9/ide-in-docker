@@ -1,4 +1,4 @@
-FROM 01e9/ide-in-docker as php
+FROM 01e9/ide-in-docker AS php
 
 ARG PHP_VERSION='8.3'
 ARG COMPOSER_VERSION='2.8.1'
