@@ -1,10 +1,10 @@
 FROM 01e9/ide-in-docker
 
-ARG CMAKE_VERSION='3.28.3'
-ARG NINJA_VERSION='1.11.1'
-ARG GCC_VERSION='13'
-ARG LLVM_VERSION='18'
-ARG CPPCHECK_HTMLREPORT_VERSION='2.8'
+ARG CMAKE_VERSION='3.31.1'
+ARG NINJA_VERSION='1.12.1'
+ARG GCC_VERSION='14'
+ARG LLVM_VERSION='19'
+ARG CPPCHECK_HTMLREPORT_VERSION='2.16.0'
 
 RUN apt update \
     && apt install -y \
@@ -30,7 +30,6 @@ RUN apt update \
         && mv ninja /usr/local/bin/ \
     # gcc
     && cd /tmp \
-        && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
         && apt install -y gcc-${GCC_VERSION} g++-${GCC_VERSION} \
     # llvm (clang)
     && cd /tmp \
