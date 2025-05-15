@@ -40,12 +40,13 @@ RUN apt-get update \
 FROM php
 
 ARG NODEJS_VERSION='20'
-ARG NPM_VERSION='10.9'
+ARG NPM_VERSION='11'
+ARG PNPM_VERSION='9.15'
 
 RUN apt-get update \
-    # nodejs
     && (curl -sL "https://deb.nodesource.com/setup_${NODEJS_VERSION}.x" | bash -) \
         && apt-get install -y nodejs \
-    # npm
     && npm install --location=global "npm@${NPM_VERSION}" \
+    && npm install --location=global "pnpm@${PNPM_VERSION}" \
+    && env SHELL=bash pnpm setup \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* \
