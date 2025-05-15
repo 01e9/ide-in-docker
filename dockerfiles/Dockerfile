@@ -11,7 +11,7 @@ RUN apt-get update \
     && apt-get install -y \
         # Essential
         wget tar unzip git curl nano man htop build-essential socat gnupg2 \
-          software-properties-common bash-completion openssh-server \
+          software-properties-common bash-completion openssh-server apparmor apparmor-utils \
         # GUI
         kde-plasma-desktop libgtk2.0-0 libxext6 libxrender1 libxtst6 libxslt1.1 dmz-cursor-theme \
         # for VsCode
@@ -21,7 +21,9 @@ RUN apt-get update \
         # for browsers/playwright
         libgtk-4-1 libwoff1 libgstreamer-plugins-bad1.0-0 libharfbuzz-icu0 libenchant-2-2 libhyphen0 libmanette-0.2-0 \
         # for JetBrains
-        libxshmfence-dev apparmor apparmor-utils \
+        libxshmfence-dev \
+	# web browser
+        falkon \
     # utf8
     && apt-get install -y locales \
         && rm -rf /var/lib/apt/lists/* \
