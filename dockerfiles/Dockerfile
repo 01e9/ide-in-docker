@@ -18,8 +18,10 @@ RUN apt-get update \
         libxcb-dri3-0 libdrm-dev libgbm-dev \
         # for Chromium
         libgtk-3-0 libatk-bridge2.0-0 libx11-xcb1 libnss3 libxss1 \
+        # for browsers/playwright
+        libgtk-4-1 libwoff1 libgstreamer-plugins-bad1.0-0 libharfbuzz-icu0 libenchant-2-2 libhyphen0 libmanette-0.2-0 \
         # for JetBrains
-        libxshmfence-dev \
+        libxshmfence-dev apparmor apparmor-utils \
     # utf8
     && apt-get install -y locales \
         && rm -rf /var/lib/apt/lists/* \
