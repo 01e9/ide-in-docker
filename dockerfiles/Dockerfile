@@ -1,16 +1,16 @@
-FROM ubuntu:24.10
+FROM ubuntu:25.04
 
 ARG TINI_VERSION='0.19.0'
 ARG TZ_REGION='Europe'
 ARG TZ_CITY='Chisinau'
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV DEBCONF_NONINTERACTIVE_SEEN true
+ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN=true
 
 RUN apt-get update \
     && apt-get install -y \
         # Essential
-        wget tar unzip git curl nano man htop build-essential socat gnupg2 \
+        wget tar unzip git curl nano man htop build-essential socat gnupg2 watchman \
           software-properties-common bash-completion openssh-server apparmor apparmor-utils \
         # GUI
         kde-plasma-desktop libgtk2.0-0 libxext6 libxrender1 libxtst6 libxslt1.1 dmz-cursor-theme \
@@ -46,7 +46,7 @@ RUN apt-get update \
         libglfw3-dev libassimp-dev libxinerama-dev libxcursor-dev libxi-dev xorg-dev libgl1-mesa-dev mesa-utils mesa-utils-extra kmod libxxf86vm-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-ENV LANG en_US.utf8
+ENV LANG=en_US.utf8
 
 RUN mkdir -p ~/.ssh \
     && ssh-keyscan -t rsa bitbucket.org >> ~/.ssh/known_hosts \

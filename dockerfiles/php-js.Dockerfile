@@ -1,7 +1,7 @@
 FROM 01e9/ide-in-docker AS php
 
-ARG PHP_VERSION='8.3'
-ARG COMPOSER_VERSION='2.8.1'
+ARG PHP_VERSION='8.4'
+ARG COMPOSER_VERSION='2.8.11'
 
 RUN apt-get update \
     # PHP
@@ -39,9 +39,9 @@ RUN apt-get update \
 
 FROM php
 
-ARG NODEJS_VERSION='20'
-ARG NPM_VERSION='11'
-ARG PNPM_VERSION='9.15'
+ARG NODEJS_VERSION='22'
+ARG NPM_VERSION='11.6.0'
+ARG PNPM_VERSION='10.16.1'
 
 RUN apt-get update \
     && (curl -sL "https://deb.nodesource.com/setup_${NODEJS_VERSION}.x" | bash -) \

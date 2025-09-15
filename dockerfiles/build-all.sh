@@ -6,6 +6,8 @@ cd "$SCRIPT_DIR"
 IMAGE=01e9/ide-in-docker
 PUSH=${PUSH:-}
 
+set -e
+
 docker build -t "${IMAGE}" . # base
 [ -n "$PUSH" ] && docker push "${IMAGE}"
 
