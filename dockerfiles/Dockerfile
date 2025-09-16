@@ -10,7 +10,7 @@ ENV DEBCONF_NONINTERACTIVE_SEEN=true
 RUN apt-get update \
     && apt-get install -y \
         # Essential
-        wget tar unzip git curl nano man htop build-essential socat gnupg2 watchman \
+        wget tar unzip git curl nano man htop build-essential socat gnupg2 \
           software-properties-common bash-completion openssh-server apparmor apparmor-utils \
         # GUI
         kde-plasma-desktop libgtk2.0-0 libxext6 libxrender1 libxtst6 libxslt1.1 dmz-cursor-theme \
