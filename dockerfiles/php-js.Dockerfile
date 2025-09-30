@@ -49,4 +49,4 @@ RUN apt-get update \
     && npm install --location=global "npm@${NPM_VERSION}" \
     && npm install --location=global "pnpm@${PNPM_VERSION}" \
     && env SHELL=bash pnpm setup \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
