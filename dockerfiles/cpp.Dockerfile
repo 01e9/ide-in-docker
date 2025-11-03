@@ -15,7 +15,7 @@ RUN apt update \
         # Code analysis
         gcovr cppcheck python3-pygments valgrind \
         # Libs
-        libssl-dev libxkbcommon-dev libunwind-dev \
+        libssl-dev libxkbcommon-dev libunwind-dev libevent-dev \
     # cmake
     && cd /tmp \
         && wget -O cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz \
