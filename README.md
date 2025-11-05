@@ -8,8 +8,7 @@ A script to run IDE in docker container (via [x11docker](https://github.com/mvie
 
 ## Usage
 
-1. Clone this repo or [download the script](https://github.com/01e9/ide-in-docker/releases/latest)
-2. See `./ide-in-docker --help`
+See `./ide-in-docker --help`
 
 ### Connect to other containers
 
