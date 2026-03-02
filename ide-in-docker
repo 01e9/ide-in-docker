@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-VERSION=1.0.5
-DEFAULT_X11DOCKER_VERSION=6.10.0
+VERSION=1.1.0
+DEFAULT_X11DOCKER_VERSION=7.8.0
 DEFAULT_DOCKER_IMAGE=01e9/ide-in-docker
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && pwd 2> /dev/null; )";
@@ -17,7 +17,7 @@ while test $# -gt 0; do
       echo ""
       echo "Usage:"
       echo "    ${SCRIPT_NAME} <ide-executable> [ide-options]"
-      echo "    env DOCKER_IMAGE=your/image:1.2.3 DOCKER_OPTS='-p 8080:8080' ${SCRIPT_NAME} <ide-executable>"
+      echo "    env DOCKER_IMAGE=your/image:1.2.3 X11DOCKER_OPTS='--gpu' ${SCRIPT_NAME} <ide-executable>"
       echo ""
       echo "Options:"
       echo "    -v --version"
@@ -51,25 +51,12 @@ done
 
 #endregion
 
-#region arguments
-
 IDE_COMMAND="${*}"
 [ -n "${IDE_COMMAND}" ] || { echo "Missing required arguments, see --help"; exit 1; }
 
-#endregion
-
-#region env variables
-
 X11DOCKER_VERSION="${X11DOCKER_VERSION:-${DEFAULT_X11DOCKER_VERSION}}"
-X11DOCKER_OPTS="${X11DOCKER_OPTS:-}"
 X11DOCKER_PATH="${X11DOCKER_PATH:-${HOME}/.cache/ide-in-docker/x11docker-${X11DOCKER_VERSION}}"
-
-DOCKER_IMAGE="${DOCKER_IMAGE:-${DEFAULT_DOCKER_IMAGE}}"
-DOCKER_OPTS="${DOCKER_OPTS:-}"
-
 X11DOCKER_COMMAND="$(docker version 1> /dev/null 2> /dev/null || echo 'sudo ')${X11DOCKER_PATH}"
-
-#endregion
 
 if [ ! -f "${X11DOCKER_PATH}" ] || [ "$(${X11DOCKER_COMMAND} --version 2> /dev/null)" != "$X11DOCKER_VERSION" ]; then
   mkdir -p $(dirname "${X11DOCKER_PATH}")
@@ -81,15 +68,21 @@ fi
 
 echo "Starting IDE in docker container..."
 
+xhost +SI:localuser:$USER
+
 ${X11DOCKER_COMMAND} \
+  --hostuser="$USER" \
   --home="$HOME" \
+  --hostdisplay \
   --cap-default \
   --clipboard \
   --network \
-  --hostdisplay \
-  $X11DOCKER_OPTS \
-  -- "--cap-add=SYS_PTRACE $DOCKER_OPTS" \
-  $DOCKER_IMAGE \
-  $IDE_COMMAND
+  --xhost=+ \
+  --xauth=no \
+  --xc=no \
+  ${X11DOCKER_OPTS:---nxagent} \
+  ${DOCKER_OPTS:+-- "${DOCKER_OPTS}"} \
+  ${DOCKER_IMAGE:-${DEFAULT_DOCKER_IMAGE}} \
+  ${IDE_COMMAND}
 
 echo "Bye"
