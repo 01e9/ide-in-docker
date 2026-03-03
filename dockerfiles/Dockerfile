@@ -9,7 +9,7 @@ ENV DEBCONF_NONINTERACTIVE_SEEN=true
 RUN apt-get update \
     && apt-get install -y \
         # Essential
-        tini wget tar unzip git curl nano man htop build-essential socat gnupg2 locales \
+        tini wget tar unzip git curl nano man htop build-essential socat gnupg2 \
           software-properties-common bash-completion openssh-server apparmor apparmor-utils \
         # GUI
         qt6-base-dev dmz-cursor-theme libgtk2.0-0 libxext6 libxrender1 libxtst6 libxslt1.1 fonts-dejavu-core \
@@ -31,6 +31,13 @@ RUN apt-get update \
         libxshmfence-dev \
         # web browser
         libkf5coreaddons5 libkf5i18n5 libkf5guiaddons5 falkon \
+    # unicode
+    && apt-get install -y locales \
+        && locale-gen en_US.UTF-8 \
+        && update-locale LANG=en_US.UTF-8 \
+    # emoji/icons
+    && apt-get install -y fonts-dejavu-core fonts-noto fonts-noto-color-emoji \
+        && fc-cache -f -v \
     # tzdata
     && truncate -s0 /tmp/preseed.cfg \
         && echo "tzdata tzdata/Areas select ${TZ_REGION}" >> /tmp/preseed.cfg \
@@ -41,8 +48,8 @@ RUN apt-get update \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
+ENV LANGUAGE=en_US:en
 
 RUN locale-gen en_US.UTF-8
 
