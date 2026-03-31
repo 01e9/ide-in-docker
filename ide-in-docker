@@ -80,6 +80,7 @@ ${X11DOCKER_COMMAND} \
   --xhost=+ \
   --xauth=no \
   --xc=no \
+  --env TINI_SUBREAPER=1 \
   ${X11DOCKER_OPTS:---nxagent} \
   ${DOCKER_OPTS:+-- "${DOCKER_OPTS}"} \
   ${DOCKER_IMAGE:-${DEFAULT_DOCKER_IMAGE}} \
