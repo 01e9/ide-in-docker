@@ -6,6 +6,17 @@ ARG TZ_CITY='Chisinau'
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN=true
 
+# disable snap for firefox
+RUN tee /etc/apt/preferences.d/mozilla-firefox > /dev/null <<EOF
+Package: firefox*
+Pin: release o=LP-PPA-mozillateam
+Pin-Priority: 1001
+
+Package: firefox*
+Pin: release o=Ubuntu
+Pin-Priority: -1
+EOF
+
 RUN apt-get update \
     && apt-get install -y \
         # Essential
@@ -31,6 +42,8 @@ RUN apt-get update \
         libxshmfence-dev \
         # web browser
         libkf5coreaddons5 libkf5i18n5 libkf5guiaddons5 falkon \
+    && add-apt-repository ppa:mozillateam/ppa \
+        && apt-get install -y firefox \
     # unicode
     && apt-get install -y locales \
         && locale-gen en_US.UTF-8 \
