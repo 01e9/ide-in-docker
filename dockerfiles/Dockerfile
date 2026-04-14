@@ -12,7 +12,7 @@ RUN apt-get update \
         tini wget tar unzip git curl nano man htop build-essential socat gnupg2 \
           software-properties-common bash-completion openssh-server apparmor apparmor-utils \
         # GUI
-        qt6-base-dev dmz-cursor-theme libgtk2.0-0 libxext6 libxrender1 libxtst6 libxslt1.1 fonts-dejavu-core \
+        qt6-base-dev dmz-cursor-theme libgtk2.0-0 gtk2-engines-murrine gtk2-engines-pixbuf xdg-utils libxext6 libxrender1 libxtst6 libxslt1.1 fonts-dejavu-core \
             # KDE
             kde-style-breeze breeze-cursor-theme \
         # Wayland
